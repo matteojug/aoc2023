@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+DAY=$1
+shift
+INPUT_DIR="inputs"
+TEST=0
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --example)
+            INPUT_DIR="examples"
+            shift
+            ;;
+        --test)
+            TEST=1
+            shift
+            ;;
+        --*|-*)
+            break
+            ;;
+    esac
+done
+
+if [ "$TEST" -eq 1 ]; then
+    cargo test $@ --bin "d$(printf '%02d' $DAY)"
+else
+    cargo run $@ --bin "d$(printf '%02d' $DAY)" "$INPUT_DIR/$DAY.in"
+fi
